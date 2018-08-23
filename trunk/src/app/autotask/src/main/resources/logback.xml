@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml"/> -->
+    <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder><!-- 必须指定，否则不会往文件输出内容 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread][%p][%c][%M][%L] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>/home/posp/log/calagtfee.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="qrQueryAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder><!-- 必须指定，否则不会往文件输出内容 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread][%p][%c][%M][%L] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>/home/posp/log/qrQuery.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="eposQueryAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder><!-- 必须指定，否则不会往文件输出内容 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread][%p][%c][%M][%L] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>/home/posp/log/eposQuery.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>365</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="dailyRollingFileAppender" />
+    </root>
+    <logger name="qrQuery" additivity="false" level="INFO">
+        <appender-ref ref="qrQueryAppender"/>
+    </logger>
+    <logger name="eposQuery" additivity="false" level="INFO">
+        <appender-ref ref="eposQueryAppender"/>
+    </logger>
+    <logger name="com.mybatis.mapper" level="INFO" additivity="true">
+    </logger>
+</configuration>

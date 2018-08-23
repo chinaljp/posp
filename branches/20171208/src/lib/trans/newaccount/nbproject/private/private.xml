@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>2</activeConfTypeElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/risk_rule.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/merch_limit.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/service.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/wallet.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/fee.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/channel_conv.c</file>
+            <file>file:/C:/Users/Gaof/Documents/NetBeansProjects/posp/pos/branches/20171208/src/lib/trans/newaccount/shieldrisk.c</file>
+        </group>
+        <group name="new-posp 20180111-14:40:44">
+            <file>file:/D:/new-pos/20171208/src/lib/trans/newaccount/service.c</file>
+            <file>file:/D:/new-pos/20171208/src/lib/trans/newaccount/channel_conv.c</file>
+            <file>file:/D:/new-pos/20171208/src/lib/trans/newaccount/old_trans_detail.c</file>
+        </group>
+    </open-files>
+</project-private>

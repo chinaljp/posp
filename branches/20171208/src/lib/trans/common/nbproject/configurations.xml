@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles" displayName="头文件" projectFiles="true">
+      <itemPath>agent.h</itemPath>
+      <itemPath>limitrule.h</itemPath>
+      <itemPath>merch.h</itemPath>
+      <itemPath>merchlimit.h</itemPath>
+      <itemPath>resp_code.h</itemPath>
+      <itemPath>s_param.h</itemPath>
+      <itemPath>settle_date.h</itemPath>
+      <itemPath>status.h</itemPath>
+      <itemPath>term.h</itemPath>
+      <itemPath>trace.h</itemPath>
+      <itemPath>trans_code.h</itemPath>
+      <itemPath>trans_detail.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles" displayName="源文件" projectFiles="true">
+      <itemPath>agent.c</itemPath>
+      <itemPath>limit.c</itemPath>
+      <itemPath>merch.c</itemPath>
+      <itemPath>resp_code.c</itemPath>
+      <itemPath>s_param.c</itemPath>
+      <itemPath>settle_date.c</itemPath>
+      <itemPath>term.c</itemPath>
+      <itemPath>trace.c</itemPath>
+      <itemPath>trans_code.c</itemPath>
+      <itemPath>trans_detail.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles" displayName="资源文件" projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="测试文件"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="重要文件"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="3">
+      <toolsSet>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>/usr/local/include/hiredis</pElem>
+            <pElem>/usr/local/include</pElem>
+            <pElem>/usr/local/ocilib/include</pElem>
+            <pElem>../../base/tools</pElem>
+          </incDir>
+          <commandLine>-fPIC</commandLine>
+          <warningLevel>3</warningLevel>
+        </cTool>
+        <archiverTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libcommon.a</output>
+        </archiverTool>
+      </compileType>
+      <item path="agent.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="agent.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="limit.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="limitrule.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="merch.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="merch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="merchlimit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="resp_code.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="resp_code.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="s_param.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="s_param.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="settle_date.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="settle_date.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="term.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="term.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trace.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trace.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trans_code.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trans_code.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trans_detail.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trans_detail.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="3">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <archiverTool>
+        </archiverTool>
+      </compileType>
+      <item path="agent.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="agent.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="limit.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="limitrule.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="merch.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="merch.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="merchlimit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="resp_code.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="resp_code.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="s_param.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="s_param.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="settle_date.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="settle_date.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="status.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="term.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="term.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trace.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trace.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trans_code.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trans_code.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="trans_detail.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="trans_detail.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

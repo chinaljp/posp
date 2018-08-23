@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include "t_extiso.h"
+
+IsoTable g_staIsoTable[] = {
+        {   4, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 1    */
+        {  19, LLVAR|OTHER|BCD|UNSYMBOL|BLANK|LEFT_ALIGN },         /* 2    */
+        {   6, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 3    */
+        {  12, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 4    */
+        {  200,LLLVAR|OTHER|ASCII|UNSYMBOL|BLANK|RIGHT_ALIGN},         /* 5    */
+        {   30, LLVAR|OTHER|ASCII|UNSYMBOL|BLANK|RIGHT_ALIGN },         /* 6    */
+        {   30, LLVAR|OTHER|ASCII|UNSYMBOL|BLANK|RIGHT_ALIGN },        /* 7    */
+        {   2, 0x00 },                                              /* 8    */
+        {   2, 0x00 },                                              /* 9    */
+        {   2, 0x00 },                                              /* 10   */
+        {   6, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 11   */
+        {   6, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 12   */ 
+        {   4, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 13   */
+        {   4, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 14   */
+        {   4, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 15   */
+        {   2, 0x00 },                                              /* 16   */
+        {   2, 0x00 },                                              /* 17   */
+        {   2, 0x00 },                                              /* 18   */
+        {   2, 0x00 },                                              /* 19   */
+        {   2, 0x00 },                                              /* 20   */
+        {   2, 0x00 },                                              /* 21   */
+        {   3, FIXED|OTHER|BCD|UNSYMBOL|ZERO|LEFT_ALIGN },          /* 22   */
+        {   3, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },          /* 23   */
+        {   2, 0x00 },                                              /* 24   */
+        {   2, FIXED|OTHER|BCD|UNSYMBOL|ZERO|LEFT_ALIGN },          /* 25   */
+        {   2, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 26   */
+        {   1, FIXED|OTHER|BCD|UNSYMBOL|ZERO|LEFT_ALIGN },          /* 27   */
+        {   8, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 28   */
+        {  15, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 29   */
+        {  40, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 30   */
+        {   2, 0x00 },                                              /* 31   */
+        {  11, LLVAR|OTHER|BCD|UNSYMBOL|ZERO|LEFT_ALIGN },          /* 32   */
+        {   2, 0x00 },                                              /* 33   */
+        {   2, 0x00 },                                              /* 34   */
+        {  37, LLVAR|OTHER|BCD|UNSYMBOL|BLANK|LEFT_ALIGN },         /* 35   */
+        { 104, LLLVAR|OTHER|BCD|UNSYMBOL|BLANK|LEFT_ALIGN },        /* 36   */
+        {  12, FIXED|OTHER|ASCII|UNSYMBOL|ZERO|RIGHT_ALIGN },       /* 37   */
+        {   6, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 38   */
+        {   2, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 39   */
+        {   2, 0x00 },                                              /* 40   */
+        {   8, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 41   */
+        {  15, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 42   */
+        {   2, 0x00 },                                              /* 43   */
+        {  25, LLVAR|OTHER|ASCII|UNSYMBOL|BLANK|RIGHT_ALIGN },      /* 44   */
+        {   2, 0x00 },                                              /* 45   */
+        {   2, 0x00 },                                              /* 46   */
+        {   2, 0x00 },                                              /* 47   */
+        { 322, LLLVAR|OTHER|BCD|UNSYMBOL|ZERO|LEFT_ALIGN },         /* 48   */
+        {   3, FIXED|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },       /* 49   */
+        {   2, 0x00 },                                              /* 50   */
+        {   2, 0x00 },                                              /* 51   */
+        {   8, FIXED|BINARY|ASCII|UNSYMBOL|ZERO|RIGHT_ALIGN },      /* 52   */
+        {  16, FIXED|OTHER|BCD|UNSYMBOL|ZERO|RIGHT_ALIGN },         /* 53   */
+        {  40, LLLVAR|OTHER|ASCII|UNSYMBOL|ZERO|RIGHT_ALIGN },      /* 54   */
+        { 255, LLLVAR|BINARY|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },      /* 55   */
+        {   2, 0x00 },                                              /* 56   */
+        {  999, LLLVAR|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },   /* 57   */
+        {  255, LLLVAR|BINARY|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },   /* 58   */
+        { 300, LLLVAR|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },      /* 59   */
+        {  17, LLLVAR|OTHER|BCD|UNSYMBOL|BLANK|LEFT_ALIGN },        /* 60   */
+        {  29, LLLVAR|OTHER|BCD|UNSYMBOL|BLANK|LEFT_ALIGN },        /* 61   */
+        { 999, LLLVAR|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },      /* 62   */
+        { 163, LLLVAR|OTHER|ASCII|UNSYMBOL|BLANK|LEFT_ALIGN },      /* 63   */
+        {   8, FIXED|BINARY|ASCII|UNSYMBOL|ZERO|RIGHT_ALIGN }       /* 64   */
+};
