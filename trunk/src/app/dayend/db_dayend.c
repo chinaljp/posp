@@ -250,3 +250,17 @@ int RePufaLocalMerchLimit(){
     tReleaseRes(pstRes);
     return 0;
 }
+
+
+int InitLifeMerchUseCnt(){
+   char sSqlStr[512] = {0};
+    OCI_Resultset *pstRes = NULL;
+    snprintf(sSqlStr, sizeof (sSqlStr), "UPDATE B_LIFE_MERCH  SET  USE_CNT = 0");
+    if (tExecute(&pstRes, sSqlStr) < 0) {
+        tLog(ERROR, "sql[%s] err!", sSqlStr);
+        return -1;
+    }
+    tCommit();
+    tReleaseRes(pstRes);
+    return 0;
+}

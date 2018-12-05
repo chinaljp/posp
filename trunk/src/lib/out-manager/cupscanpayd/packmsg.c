@@ -36,7 +36,7 @@ static unsigned char g_UnconJsonpackMap[] = {\
 static unsigned char g_conJsonpackMap[] = {\
 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 20, 21, 22, 26, 255};
 static unsigned char g_UnAuthenpackMap[] = {\
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 255};
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 23, 24, 25, 26, 255};
 static unsigned char g_AuthenpackMap[] = {\
 1, 5, 10, 11, 16, 17, 18, 20, 25, 255};
 static unsigned char g_UnQuotapackMap[] = {\
@@ -222,6 +222,12 @@ int GetFld(int iBitNo, cJSON *pstQrcode, cJSON *jsonStr) {
             GET_STR_KEY(jsonStr, "cardAttr", sBuf);
             SET_STR_KEY(pstQrcode, "cardAttr", sBuf);
             return iBitNo;
+        
+        case 26: /*银联二维码交易 渠道清算日期*/    
+            
+            GET_STR_KEY(jsonStr, "settleDate", sBuf);
+            SET_STR_KEY(pstQrcode, "ChannelSettleDate", sBuf);
+            return iBitNo;    
             
         default:
             tLog(ERROR, "拆解的报文域[%d]不存在", iBitNo);

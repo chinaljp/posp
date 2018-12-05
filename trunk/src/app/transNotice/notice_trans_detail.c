@@ -297,11 +297,11 @@ int ScanPosTrans() {
         sprintf(sTransTime,"%s%s",stPosTransDetail.sTransDate,stPosTransDetail.sTransTime);
         SET_STR_KEY(pstJson, "tranTime", sTransTime);
         
-        SET_STR_KEY(pstJson, "CardNo", stPosTransDetail.sCardNo);
+        SET_STR_KEY(pstJson, "cardNo", stPosTransDetail.sCardNo);
         SET_STR_KEY(pstJson, "traceNo", stPosTransDetail.sTraceNo);
         SET_STR_KEY(pstJson, "sysTraceNo", stPosTransDetail.sSysTrace);
         SET_STR_KEY(pstJson, "rrn", stPosTransDetail.sRrn);
-        SET_STR_KEY(pstJson, "AuthCode", stPosTransDetail.sAuthCode);
+        SET_STR_KEY(pstJson, "authCode", stPosTransDetail.sAuthCode);
         SET_STR_KEY(pstJson, "batchNo", stPosTransDetail.sBatchNo);
         
         if(stPosTransDetail.sTransCode[0] == 'M') {
@@ -478,7 +478,7 @@ int ScanInlineTrans() {
         sprintf(sTransTime,"%s%s",stQrcodeTransDetail.sTransDate,stQrcodeTransDetail.sTransTime);
         SET_STR_KEY(pstJson, "tranTime", sTransTime);       
         
-        SET_STR_KEY(pstJson, "CardNo", stQrcodeTransDetail.sCardNo);
+        SET_STR_KEY(pstJson, "cardNo", stQrcodeTransDetail.sCardNo);
         SET_STR_KEY(pstJson, "traceNo", stQrcodeTransDetail.sTraceNo);
         SET_STR_KEY(pstJson, "sysTraceNo", stQrcodeTransDetail.sSysTrace);
         SET_STR_KEY(pstJson, "rrn", stQrcodeTransDetail.sRrn);
@@ -651,7 +651,7 @@ int ScanFailInlineTrans() {
         sprintf(sTransTime,"%s%s",stQrcodeTransDetail.sTransDate,stQrcodeTransDetail.sTransTime);
         SET_STR_KEY(pstJson, "tranTime", sTransTime);       
         
-        SET_STR_KEY(pstJson, "CardNo", stQrcodeTransDetail.sCardNo);
+        SET_STR_KEY(pstJson, "cardNo", stQrcodeTransDetail.sCardNo);
         SET_STR_KEY(pstJson, "traceNo", stQrcodeTransDetail.sTraceNo);
         SET_STR_KEY(pstJson, "sysTraceNo", stQrcodeTransDetail.sSysTrace);
         SET_STR_KEY(pstJson, "rrn", stQrcodeTransDetail.sRrn);
@@ -829,7 +829,7 @@ int ScanDayFailInlineTrans() {
         sprintf(sTransTime,"%s%s",stQrcodeTransDetail.sTransDate,stQrcodeTransDetail.sTransTime);
         SET_STR_KEY(pstJson, "tranTime", sTransTime);       
         
-        SET_STR_KEY(pstJson, "CardNo", stQrcodeTransDetail.sCardNo);
+        SET_STR_KEY(pstJson, "cardNo", stQrcodeTransDetail.sCardNo);
         SET_STR_KEY(pstJson, "traceNo", stQrcodeTransDetail.sTraceNo);
         SET_STR_KEY(pstJson, "sysTraceNo", stQrcodeTransDetail.sSysTrace);
         SET_STR_KEY(pstJson, "rrn", stQrcodeTransDetail.sRrn);
@@ -939,13 +939,14 @@ int getSign(cJSON *pstJson,char *pcsSign) {
     char sBuf[4096] = {0}, order[128]  = {0}, sSign[32 + 1] = {0};
     char sTemp[256 + 1] = {0};
     int i = 0;
-    char *sKey[] = { "amount","AuthCode","bankName","batchNo","CardNo",
+    char *sKey[] = { "amount","authCode","bankName","batchNo","cardNo",
                     "cardType","extData","feeType","inputMode","merchantId","merchantName",
                     "orderId","originalAuthCode","originalbatchNo","originalRrn",
                     "originaltraceNo","originalTranDate","platCode","rrn","settleAmount",
                     "settleDate","sysRespCode","sysRespDesc","sysTraceNo","termId","traceNo",
                     "tranCode","tranTime","" };
 
+    memcpy(sBuf,"16D0462C164CB0E3AD6EF2B0B9514092",32);
     while(1)
     {
         if(sKey[i][0] == '\0') {

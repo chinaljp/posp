@@ -18,7 +18,7 @@ int UpValidflag(char * pstOrderNo) {
     strcpy(sOrderNo, pstOrderNo);
     tTrim(sOrderNo);
     snprintf(sSqlStr, sizeof (sSqlStr), "UPDATE B_INLINE_TARNS_DETAIL SET VALID_FLAG='0' WHERE MERCH_ORDER_NO='%s' AND "
-                          "TRANS_CODE NOT IN ('02B300','02W300','02Y300','0AB300','0AW300')", sOrderNo);
+                          "TRANS_CODE NOT IN ('02B300','02W300','02Y300','0AY300','0AB300','0AW300')", sOrderNo);
     
     if (tExecute(&pstRes, sSqlStr) < 0 || tGetAffectedRows() <= 0) {
         tLog(DEBUG,"sSqlStr = [%s]",sSqlStr);
@@ -31,15 +31,15 @@ int UpValidflag(char * pstOrderNo) {
 }
 
 /*银联二维码查询结果 支付成功时 更新settleKey中的信息到原交易流水中*/
-int UpCupsSettleMessage(char * pcOrderNo, char *pcCardType, char * pcSettleSysTrace, char * pcSettleTransTime) {
+int UpCupsSettleMessage(char * pcOrderNo, char *pcCardType, char * pcSettleSysTrace, char * pcSettleTransTime, char *pcChannelSettleDate,char * pcSettleDate) {
     char sSqlStr[1024] = {0};
     OCI_Resultset *pstRes = NULL;
     int iNum = 0;
     
-    snprintf( sSqlStr,sizeof(sSqlStr),"update b_inline_tarns_detail set card_type = '%s',settle_sys_trace = '%s',settle_trans_time = '%s' "
-                    "where merch_order_no = '%s' and trans_code not in ('02Y300') and "
+    snprintf( sSqlStr,sizeof(sSqlStr),"update b_inline_tarns_detail set card_type = '%s',settle_sys_trace = '%s',settle_trans_time = '%s',channel_settle_date = '%s',settle_date = '%s'  "
+                    "where merch_order_no = '%s' and trans_code not in ('02Y300','0AY300') and "
             "not exists (select 1 from b_inline_tarns_detail where settle_sys_trace = '%s' and settle_trans_time = '%s')",
-            pcCardType,pcSettleSysTrace,pcSettleTransTime,pcOrderNo,pcSettleSysTrace,pcSettleTransTime );
+            pcCardType,pcSettleSysTrace,pcSettleTransTime,pcChannelSettleDate,pcSettleDate,pcOrderNo,pcSettleSysTrace,pcSettleTransTime );
         
     if (tExecute(&pstRes, sSqlStr) < 0 ) {
         tLog(ERROR,"sSqlStr = [%s]",sSqlStr);
@@ -59,7 +59,7 @@ int UpCupsSettleKey(char * pcOrderNo, char * pcSettleSysTrace, char * pcSettleTr
     int iNum = 0;
     
     snprintf( sSqlStr,sizeof(sSqlStr),"update b_inline_tarns_detail set settle_sys_trace = '%s',settle_trans_time = '%s' "
-                    "where merch_order_no = '%s' and trans_code not in ('02Y300') and "
+                    "where merch_order_no = '%s' and trans_code not in ('02Y300','0AY300') and "
             "not exists (select 1 from b_inline_tarns_detail where settle_sys_trace = '%s' and settle_trans_time = '%s')",
             pcSettleSysTrace,pcSettleTransTime,pcOrderNo,pcSettleSysTrace,pcSettleTransTime );
         
@@ -75,7 +75,7 @@ int UpCupsSettleKey(char * pcOrderNo, char * pcSettleSysTrace, char * pcSettleTr
     return ( 0 );
 }
 
-/*二维码主扫交易 更新交易流水中的valid_flag, 二维码撤销交易，更新二维码撤销交易流水中的valid_flag*/
+/*二维码主扫交易 更新交易流水中的valid_flag, 二维码撤销交易，更新二维码撤销交易流水中的valid_flag  注意更新二维码主扫交易流水中的valid_flag  不在使用 作废20180129 ***/
 int UpValidflagInLine(char * pcSysTrace,char * pcTransDate) {
     char sSqlStr[512] = {0};
     OCI_Resultset *pstRes = NULL;

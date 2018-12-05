@@ -17,7 +17,7 @@
 
 /* 获取银行卡结算日 */
 int GetCardSettleDate(cJSON *pstJson, int *piFlag) {
-    char sDate[8 + 1] = {0}, sRespCode[2 + 1] = {0};
+    char sDate[8 + 1] = {0}, sRespCode[2 + 1] = {0},sChannelSettleDate[8 + 1]={0};
     cJSON * pstTransJson = NULL;
 
     pstTransJson = GET_JSON_KEY(pstJson, "data");
@@ -28,7 +28,8 @@ int GetCardSettleDate(cJSON *pstJson, int *piFlag) {
         return 0;
     }
 #endif
-    FindCardSettleDate(sDate);
+    GET_STR_KEY(pstTransJson, "channel_settle_date", sChannelSettleDate);
+    GetSysSettleDate(sDate,sChannelSettleDate);
     SET_STR_KEY(pstTransJson, "settle_date", sDate);
     tLog(ERROR, "获取结算日[%s]成功.", sDate);
     return 0;

@@ -11,15 +11,17 @@
 #include "t_log.h"
 #include "t_db.h"
 
-int FindLocalCityLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *pcChannelMerchName, char *pcUserCode ) {
+int FindLocalCityLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *pcChannelMerchName, char *pcUserCode,int iUseCnt ) {
     
     char sSqlStr[1024 + 1] = {0};
     OCI_Resultset *pstRes = NULL;
     OCI_Statement *pstState = NULL;
     
-    snprintf(sSqlStr, sizeof (sSqlStr), " select l.merch_id,l.merch_name,l.term_id"
-                                        " from b_merch b join b_life_merch l on b.city_code = l.area_code"
-                                        " where  b.user_code = '%s' and l.status = '1' and rownum = 1", pcUserCode);
+    snprintf(sSqlStr, sizeof (sSqlStr), "select merch_id,merch_name,term_id from"
+                                            " (select l.merch_id as merch_id,l.merch_name as merch_name,l.term_id as term_id"
+                                            " from b_merch b join b_life_merch l on b.city_code = l.area_code"
+                                            " where  b.user_code = '%s' and l.status = '1' and l.use_cnt < %d order by dbms_random.value)"
+                                        " where rownum = 1", pcUserCode,iUseCnt);
     
     tLog(DEBUG, "sql[%s] !", sSqlStr);
     pstState = tExecuteEx(&pstRes, sSqlStr);
@@ -47,11 +49,13 @@ int FindLocalCityLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *
         tReleaseResEx(pstState);
         OCI_StatementFree(pstState);
         MEMSET(sSqlStr);
-        snprintf(sSqlStr, sizeof (sSqlStr), "select l.merch_id,l.merch_name,l.term_id  from"
+        snprintf(sSqlStr, sizeof (sSqlStr), "select merch_id,merch_name,term_id from"
+                                                " (select l.merch_id,l.merch_name,l.term_id  from"
                                                 " (select m.city_code as city_code from s_city m where m.city_level = '3'"
                                                 " start with m.city_code = ( select city_code  from b_merch where user_code = '%s')"
                                                 " connect by m.CITY_CODE =prior m.P_CITY_CODE ) b"
-                                                " join b_life_merch l on b.city_code = l.city_code where  l.status = '1'  and rownum = 1", pcUserCode);
+                                                " join b_life_merch l on b.city_code = l.city_code where l.status = '1' and l.use_cnt < %d order by dbms_random.value)"
+                                            " where rownum = 1", pcUserCode,iUseCnt);
         tLog(DEBUG, "sql[%s] !", sSqlStr);
         pstState = tExecuteEx(&pstRes, sSqlStr);
         if (pstState == NULL) {
@@ -86,18 +90,20 @@ int FindLocalCityLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *
     return ( 0 );
 }
 
-int FindCapitalLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *pcChannelMerchName, char *pcUserCode ) {
+int FindCapitalLifeMerch( char *pcChanneMerchId, char *pcChannelTermId, char *pcChannelMerchName, char *pcUserCode,int iUseCnt ) {
     char sSqlStr[1024 + 1] = {0};
     OCI_Resultset *pstRes = NULL;
     OCI_Statement *pstState = NULL;
     
-    snprintf(sSqlStr, sizeof (sSqlStr), " SELECT c.merch_id,c.merch_name,c.term_id FROM" 
-                            " ( select m.city_code as city_code from s_city m where m.city_level = '2'"
-                                " start with m.city_code = (select city_code  from b_merch where user_code = '%s')"
-                                " connect by m.CITY_CODE =prior m.P_CITY_CODE ) a"
-                            " join  s_prov_capital b on a.city_code = b.province_code"
-                            " join  b_life_merch c on c.city_code = b.capital_code"
-                            " WHERE   c.status = '1' and rownum = 1", pcUserCode);
+    snprintf(sSqlStr, sizeof (sSqlStr), "SELECT  merch_id,merch_name,term_id FROM"
+                                " ( select c.merch_id as merch_id,c.merch_name as merch_name,c.term_id as term_id from" 
+                                " ( select m.city_code as city_code from s_city m where m.city_level = '2'"
+                                    " start with m.city_code = (select city_code  from b_merch where user_code = '%s')"
+                                    " connect by m.CITY_CODE =prior m.P_CITY_CODE ) a"
+                                " join  s_prov_capital b on a.city_code = b.province_code"
+                                " join  b_life_merch c on c.city_code = b.capital_code"
+                                " where c.status = '1' and c.use_cnt < %d order by dbms_random.value )"
+                            " WHERE rownum = 1", pcUserCode,iUseCnt);
     
     tLog(DEBUG, "sql[%s] !", sSqlStr);
     pstState = tExecuteEx(&pstRes, sSqlStr);

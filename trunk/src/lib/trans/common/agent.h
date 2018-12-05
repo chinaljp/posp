@@ -25,7 +25,7 @@ extern "C" {
         char sStatus[2 + 1];
         char sAgentLevel[2 + 1];
         char sGradeAgentLevel[2 + 1];
-        char sAgentOrganization[100 + 1];
+        char sAgentOrganization[255+1];
     } Agent;
 
     typedef struct {

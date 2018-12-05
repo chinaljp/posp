@@ -52,7 +52,7 @@ int FindLimitRule(LimitRule *pstLimitRule, char *pcMerchId, char *pcMerchLevel) 
         Y_CQ_LIMIT, \
         TRANS_CODE FROM¡¡B_LIMIT_RULE where USER_CODE in"
         "((SELECT USER_CODE FROM B_MERCH WHERE MERCH_ID = '%s' AND GRADE_MERCH_LEVEL = '%s'),"
-        "(SELECT USER_CODE FROM B_LIMIT_RULE WHERE USER_CODE IN ('AAAAAAAAAAAAAAA','BBBBBBBBBBBBBBB','CCCCCCCCCCCCCCC') AND GRADE_MERCH_LEVEL = '%s'))"
+        "(SELECT USER_CODE FROM B_LIMIT_RULE WHERE USER_CODE IN ('AAAAAAAAAAAAAAA','BBBBBBBBBBBBBBB','CCCCCCCCCCCCCCC','ZZZZZZZZZZZZZZZ') AND GRADE_MERCH_LEVEL = '%s'))"
         "order by user_code desc ", pcMerchId,pcMerchLevel,pcMerchLevel);
         //"((SELECT USER_CODE FROM B_MERCH WHERE MERCH_ID = '%s' AND GRADE_MERCH_LEVEL = '%s'),'AAAAAAAAAAAAAAA','BBBBBBBBBBBBBBB','CCCCCCCCCCCCCCC')"
         //"and GRADE_MERCH_LEVEL = '%s' order by user_code desc ", pcMerchId,pcMerchLevel,pcMerchLevel); 

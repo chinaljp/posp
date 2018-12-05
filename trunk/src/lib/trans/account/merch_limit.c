@@ -37,6 +37,7 @@ int ChkMerchCardLimit(cJSON *pstJson, int *piFlag) {
       */
     char cUpdWay;
     /* end  add by GJQ at 20180613 */
+    char sCardNoEnc[255 + 1] = {0};
     
     pstTransJson = GET_JSON_KEY(pstJson, "data");
     GET_STR_KEY(pstTransJson, "merch_id", sMerchId);
@@ -65,9 +66,7 @@ int ChkMerchCardLimit(cJSON *pstJson, int *piFlag) {
             }
         }
     }
-    
-    
-    /*begin add by GuoJiaQing at 20180625*/
+    /*end add by GuoJiaQing at 20180625*/
 
     dTranAmt /= 100;
     
@@ -81,6 +80,16 @@ int ChkMerchCardLimit(cJSON *pstJson, int *piFlag) {
         tLog(INFO,"原商户[%s]的级别为[%s]",sMerchId,sMerchLevel);
     }
     /*End 冲正类交易，根据原商户号获取商户级别 add by GJQ at 20180309*/
+    
+    /*Begin Z类商户交易 只允许卡包中的卡 做刷卡交易 add by gjq at 20180919*/
+    if( sMerchLevel[0] == '4' ) {
+        GET_STR_KEY(pstTransJson,"card_encno",sCardNoEnc);
+        if ( FindMerchCard( sMerchId,sCardNoEnc ) < 0 ) {
+            ErrHanding(pstTransJson, "57", "商户[%s]为Z类商户不允许非卡包卡号交易.", sMerchId);
+            return -1;
+        }
+    }
+    /*End Z类商户交易 只允许卡包中的卡 做刷卡交易  add by gjq*/
     
     /* 查找规则 */
     //if (FindLimitRule(&stLimitRule, sMerchId) < 0) {

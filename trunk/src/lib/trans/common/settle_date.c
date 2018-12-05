@@ -47,13 +47,13 @@ int IsSettleDate(char *pcDate) {
 int FindCardSettleDate(char *pcDate) {
     char sDate[8 + 1] = {0}, sTime[6 + 1] = {0};
     int i = 0;
-
+    
     tGetDate(sDate, "", -1);
     tGetTime(sTime, "", -1);
-    if (memcmp(sTime, "230000", 6) > 0) {
-        tAddDay(sDate, 1);
-        tLog(ERROR, "当前时间[%s]大于银联日切时间[230000],检查T+2日[%s]是否是结算日.", sTime, sDate);
-    }
+        if (memcmp(sTime, "230000", 6) > 0) {
+            tAddDay(sDate, 1);
+            tLog(ERROR, "当前时间[%s]大于银联日切时间[230000],检查T+2日[%s]是否是结算日.", sTime, sDate);
+        }
     tAddDay(sDate, 1);
     /* 节假日没有太长的，所以只检查15天的 */
     for (i = 0; i < 15; i++) {
@@ -74,6 +74,47 @@ int FindQrSettleDate(char *pcDate) {
 
     tGetDate(sDate, "", -1);
     tAddDay(sDate, 1);
+    /* 节假日没有太长的，所以只检查15天的 */
+    for (i = 0; i < 15; i++) {
+        if (IsSettleDate(sDate) == 0) {
+            tStrCpy(pcDate, sDate, 8);
+            return 0;
+        }
+        tAddDay(sDate, 1);
+    }
+    tStrCpy(pcDate, sDate, 8);
+    tLog(ERROR, "查找结算日失败,使用最后的日期作为结算日[%s]", pcDate);
+    return -1;
+}
+
+
+
+/* 是否结算日 出参 */
+int GetSysSettleDate(char *pcDate, char * pcChannelSettleDate) {
+    char sDate[8 + 1] = {0}, sTime[6 + 1] = {0};
+    int i = 0;
+    
+    tGetDate(sDate, "", -1);
+    tGetTime(sTime, "", -1);
+    
+    if (strlen(pcChannelSettleDate) == 0) {
+        tLog(ERROR,"获取银联结算日为空");
+        if (memcmp(sTime, "230000", 6) > 0) {
+            tAddDay(sDate, 1);
+            tLog(ERROR, "当前时间[%s]大于银联日切时间[230000],检查T+2日[%s]是否是结算日.", sTime, sDate);
+        }
+    } else {
+
+        if ((memcmp(sDate+4, "1231", 4) == 0)&&(memcmp(pcChannelSettleDate, "0101", 4) == 0)) {
+            tAddDay(sDate, 1); //年末最后一天，加一天变成下一年的1月1日
+        } else {
+            //补全结算年份
+            strncpy(sDate + 4, pcChannelSettleDate, 4);
+        }
+    }
+    tLog(INFO, "得到银联结算日期[%s]", sDate);
+    tAddDay(sDate, 1);
+    tLog(INFO,"结算日为[%s]",sDate);
     /* 节假日没有太长的，所以只检查15天的 */
     for (i = 0; i < 15; i++) {
         if (IsSettleDate(sDate) == 0) {

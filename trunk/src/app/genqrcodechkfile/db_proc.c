@@ -100,7 +100,7 @@ int writefilehead(FILE *fp, char *pcTransDate) {
             "from b_inline_tarns_detail_his a "
             "join S_TRANS_CODE t on t.TRANS_CODE=a.TRANS_CODE and t.settle_flag='1' "
             "join b_merch_account b on a.merch_id=b.merch_id "
-            "where a.merch_order_no in(select merch_order_no from b_zx_trans_detail where settle_date='%s') and  a.check_flag in ('Y','B') group by t.acct_flag "
+            "where a.merch_order_no in(select merch_order_no from b_qrcode_settle_detail where settle_date='%s') and  a.check_flag in ('Y','B') group by t.acct_flag "
             ")", sTransDate, sTransDate, sTransDate, sTransDate );
     tLog(INFO, "[%s]", sSqlStr);
     if (tExecute(&pstRes, sSqlStr) < 0) {
@@ -185,7 +185,7 @@ int writefilebody(FILE *fp, char *pcTransDate, char *pcSettleDate) {
             ",a.sys_trace,a.merch_id,a.channel_merch_id,a.trans_date,a.trans_time, a.amount-a.fee "
             "from b_inline_tarns_detail_his a join S_TRANS_CODE t on t.TRANS_CODE=a.TRANS_CODE and t.settle_flag='1' "
             "join b_merch_account b on a.merch_id=b.merch_id "
-            "where a.merch_order_no in(select merch_order_no from b_zx_trans_detail where settle_date='%s') and a.check_flag in ('Y','B')"
+            "where a.merch_order_no in(select merch_order_no from b_qrcode_settle_detail where settle_date='%s') and a.check_flag in ('Y','B')"
             , sTransDate, sTransDate, sTransDate, sTransDate);
             /*
             "union  select a.rrn,a.amount,b.account_uuid,a.trans_code "
@@ -281,9 +281,9 @@ int genfile(char *pcTransDate) {
     
     sprintf(sCommand, "mkdir -p %s", sPath);
     system(sCommand);
-    fp = fopen("/data_posp/tmp", "w+"); // 以文本方式打开。  
+    fp = fopen("/data_posp/tmp1", "w+"); // 以文本方式打开。  
     if (fp == NULL) {
-        tLog(INFO, "/data_posp/tmp打开失败");
+        tLog(INFO, "/data_posp/tmp1打开失败");
         return -1; // 打开文件失败。 
     }                                                                  
     if (writefilehead(fp, sTransDate) < 0) {
@@ -308,7 +308,7 @@ int genfile(char *pcTransDate) {
 
     strcat(sPath, sFileName);
     puts(sPath);
-    sprintf(sCommand, "mv /data_posp/tmp %s", sPath);
+    sprintf(sCommand, "mv /data_posp/tmp1 %s", sPath);
     system(sCommand);
     tLog(DEBUG, "对账文件生成成功");
 } 

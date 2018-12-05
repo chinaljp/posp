@@ -84,3 +84,18 @@ int FindCardBinEx(CardBin *pstCardBin, char *pcCard, char *pcTrack2, char *pcTra
 
     return 0;
 }
+/*Z类商户交易 判断交易卡号是否为卡包绑定卡号*/
+int FindMerchCard( char *pcMerchId, char *pcCardNoEnc ) {
+    char sSql[1024] = {0};
+    int iRet = 0;
+ 
+    sprintf(sSql, "select count(*) from b_merch_quick_card where merch_id = '%s' and card_no_encrypt = '%s'",pcMerchId,pcCardNoEnc);
+    
+    tLog(DEBUG,"sSql= [%s]",sSql);
+    iRet = tQueueCnt(sSql);
+    if ( iRet <= 0 ) {
+        tLog(ERROR,"商户[%s]未绑定卡[%s]",pcMerchId,pcCardNoEnc);
+        return -1;
+    }
+    return 0;
+}

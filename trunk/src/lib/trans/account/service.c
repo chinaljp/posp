@@ -71,6 +71,7 @@ int RespPro(cJSON *pstJson, int *piFlag) {
     char sBalanceSign[1 + 1] = {0};
     char sAuthCode[6 + 1] = {0};
     char sIcData[1024 + 1] = {0};
+    char sChannelSettleDate[4 + 1] = {0};
     char sRespId[8 + 1] = {0}, sRespDesc[256 + 1] = {0};
 
     //DUMP_JSON(pstJson);
@@ -101,6 +102,9 @@ int RespPro(cJSON *pstJson, int *piFlag) {
 
     GET_STR_KEY(pstRepJson, "channel_rrn", sRrn);
     SET_STR_KEY(pstDataJson, "channel_rrn", sRrn);
+    
+    GET_STR_KEY(pstRepJson, "channel_settle_date", sChannelSettleDate);
+    SET_STR_KEY(pstDataJson, "channel_settle_date", sChannelSettleDate);
 
     GetRespCode(sRespDesc, sRespCode);
     ErrHanding(pstDataJson, sRespCode, "½»Ò×[%s]·µ»Ø[%s]:%s", sRrn, sRespCode, sRespDesc);

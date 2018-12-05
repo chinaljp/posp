@@ -124,7 +124,7 @@ int EqualProc() {
             " using B_CUPS_TRANS_DETAIL c"
             " on (c.channel_rrn=h.rrn and c.CHK_FLAG='N' and c.trans_date=h.trans_date and c.trans_time=h.trans_time)"
             " when matched then"
-            " update set  h.CHECK_FLAG='Y',h.channel_fee=c.fee");
+            " update set  h.CHECK_FLAG='Y',h.channel_fee=c.fee,h.CHANNEL_SETTLE_DATE=c.SETTLE_DATE");
     if (tExecute(&pstRes, sSqlStr) < 0) {
         tLog(ERROR, "设置对账平失败.");
         return -1;
@@ -141,9 +141,9 @@ int EqualProc() {
     snprintf(sSqlStr, sizeof (sSqlStr), "merge into (select * from B_inline_tarns_detail_HIS "
             "where check_flag ='N' and resp_code='00' and fee_flag in('M','Y') ) h "
             "using B_CUPS_TRANS_DETAIL c "
-            "on (c.sys_trace=h.settle_sys_trace and c.CHK_FLAG='N' and c.transmit_time=h.settle_trans_time) "
+            "on (c.sys_trace=h.settle_sys_trace and c.CHK_FLAG='N' and c.transmit_time=h.settle_trans_time and h.amount=c.amount) "
             "when matched then "
-            "update set  h.CHECK_FLAG='Y',h.channel_fee=c.fee");
+            "update set  h.CHECK_FLAG='Y',h.channel_fee=c.fee,h.CHANNEL_SETTLE_DATE=c.SETTLE_DATE");
     if (tExecute(&pstRes, sSqlStr) < 0) {
         tLog(ERROR, "银联二维码设置对账平失败.");
         return -1;
@@ -182,12 +182,12 @@ int EqualProc() {
     MEMSET(sSqlStr);
     pstRes = NULL;
     
-    snprintf(sSqlStr, sizeof (sSqlStr), "merge into (SELECT * from B_CUPS_TRANS_DETAIL where chk_flag='N' and substr(input_mode,1,2) in('03','93','04','94')) c "
+    snprintf(sSqlStr, sizeof (sSqlStr), "merge into (SELECT * from B_CUPS_TRANS_DETAIL where chk_flag='N') c "
              "using (select * from B_INLINE_tarns_detail_HIS "
              "where check_flag ='Y' and resp_code='00' and fee_flag in ('M','Y')) h "
              "on (c.sys_trace=h.settle_sys_trace and c.transmit_time=h.settle_trans_time) "
-             "when matched then "
-             "update set c.CHK_FLAG='Y' where  c.chk_flag='N' ");
+             "when matched then "                                                                                                             
+             "update set c.CHK_FLAG='Y', input_mode=replace(input_mode,'05','94') where  c.chk_flag='N' ");
     if (tExecute(&pstRes, sSqlStr) < 0) {
         tLog(ERROR, "银联二维码设置渠道对账平失败.");
         return -1;

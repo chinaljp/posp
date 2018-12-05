@@ -45,7 +45,12 @@ int ChkMerch(cJSON *pstJson, int *piFlag) {
         ErrHanding(pstTransJson, "C2", "商户[%s]状态[%s]非正常.", sMerchId, stMerch.sStatus);
         return -1;
     }
-
+    /*Z类商户资料不全，不允许交易 add by GJQ at 20180918* /
+    if( stMerch.sMerchLevel[0] == '4' ) {
+        ErrHanding(pstTransJson, "BD", "商户[%s]资料不全不允许交易.", sMerchId);
+        return -1;
+    }*/
+    
     SET_STR_KEY(pstTransJson, "merch_name", stMerch.sCName);
     SET_STR_KEY(pstTransJson, "merch_p_name", stMerch.sPName); /* 凭条打印名称 */
     SET_STR_KEY(pstTransJson, "user_code", stMerch.sUserCode);

@@ -41,10 +41,12 @@ int ChkAgent(cJSON *pstJson, int *piFlag) {
         return -1;
     }
     SET_STR_KEY(pstTransJson, "agent_id", stAgent.sAgentId);
+    SET_STR_KEY(pstTransJson, "agent_organization", stAgent.sAgentOrganization);
     SET_STR_KEY(pstAgentJson, "agent_id", stAgent.sAgentId);
     SET_STR_KEY(pstAgentJson, "agent_name", stAgent.sAgentname);
     SET_STR_KEY(pstAgentJson, "agent_status", stAgent.sStatus);
     SET_STR_KEY(pstAgentJson, "zmk_key", stAgent.sZmk);
+    SET_STR_KEY(pstAgentJson, "agent_organization", stAgent.sAgentOrganization);
     SET_JSON_KEY(pstJson, "agent", pstAgentJson);
     tLog(INFO, "商户[%s]代理商[%s:%s]状态[%s]正常.", sMerchId, stAgent.sAgentId, stAgent.sAgentname, stAgent.sStatus);
     return 0;

@@ -143,6 +143,8 @@ int UpOrderValidProc(cJSON *pstJson, int *piFlag) {
     char sBuf[16 + 1]             = {0};
     char sSettleSysTrace[6 + 1]   = {0}; //银联二维码系统跟踪号
     char sSettleTransTime[10 + 1] = {0}; //银联二维码交易传输时间
+    char sChannelSettleDate[4+1]  = {0}; //渠道清算日期
+    char sSettleDate[8 + 1]={0}; //系统结算日期
     
     cJSON *pstDataJson = NULL;
     pstDataJson = GET_JSON_KEY(pstJson, "data");
@@ -165,6 +167,7 @@ int UpOrderValidProc(cJSON *pstJson, int *piFlag) {
         if(sTransCode[2] == 'Y') {
             GET_STR_KEY(pstDataJson, "settleKey", sSettleKey);
             GET_STR_KEY(pstDataJson, "cardAttr", sCardAttr);
+            GET_STR_KEY(pstDataJson, "ChannelSettleDate",sChannelSettleDate);
             if( sCardAttr[1] == '1' ) {
                 strcpy(sCardType,"0");
             } 
@@ -178,7 +181,10 @@ int UpOrderValidProc(cJSON *pstJson, int *piFlag) {
             tLog(INFO,"sSettleKey[%s],sSettleSysTrace[%s],sSettleTransTime[%s]",sSettleKey,sSettleSysTrace,sSettleTransTime);
             tLog(INFO,"sTransCode = [%s],需要更新清算主键中的系统跟踪号、交易传输时间",sTransCode);
             
-            iRet = UpCupsSettleMessage(sQrOrderNo,sCardType,sSettleSysTrace,sSettleTransTime);
+            /*获取settle_date(出参)*/
+            GetSysSettleDate(sSettleDate,sChannelSettleDate);
+                      
+            iRet = UpCupsSettleMessage(sQrOrderNo,sCardType,sSettleSysTrace,sSettleTransTime,sChannelSettleDate,sSettleDate);
             if (iRet < 0) {
                 tLog(ERROR, "更新银联二维码清算主键内容失败，订单号[%s]", sQrOrderNo);
                 return -1;
@@ -317,7 +323,7 @@ int UpdQrTransDetail(cJSON *pstJson, int *piFlag) {
 /* 交易返回 */
 int QueryReturnInfo(cJSON *pstJson, int *piFlag) {
     cJSON *pstDataJson = NULL, *pstRepJson = NULL;
-    char sSettleKey[38 + 1] = {0}, sCardAttr[2 + 1] = {0};
+    char sSettleKey[38 + 1] = {0}, sCardAttr[2 + 1] = {0}, sChannelSettleDate[4] = {0};
     char sResultCode[2 + 1] = {0}, sRespCode[2 + 1] = {0};
     /*char sCodeUrl[100] = {0}, sTransCode[6 + 1] = {0}, sTradeState[3 + 1] = {0};*/
     double dAmount = 0.0;
@@ -337,6 +343,9 @@ int QueryReturnInfo(cJSON *pstJson, int *piFlag) {
     GET_STR_KEY(pstRepJson, "cardAttr", sCardAttr);
     SET_STR_KEY(pstDataJson, "cardAttr", sCardAttr);
     
+    GET_STR_KEY(pstRepJson, "ChannelSettleDate",sChannelSettleDate);
+    SET_STR_KEY(pstDataJson, "ChannelSettleDate", sChannelSettleDate);
+            
     GET_STR_KEY(pstRepJson, "result_code", sResultCode);
     strcpy(sRespCode,sResultCode);
     //GET_DOU_KEY(pstRepJson, "settleKey", sSettleKey);

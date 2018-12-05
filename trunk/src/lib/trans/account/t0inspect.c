@@ -544,9 +544,18 @@ int ChkCreditD0Limit(cJSON *pstTransJson) {
         ErrHanding(pstTransJson, "E6", "商户[%s]D0消费[%.02f]低于最低限额[%.02f].", sMerchId, dTranAmt, dMinAmt);
         return -1;
     }
-    if (FindValueByKey(sTmp, "D0_SINGLE_CASH_MAX") < 0) {
-        ErrHanding(pstTransJson, "96", "查找key[D0_SINGLE_CASH_MAX]D0交易上限值,失败.");
-        return -1;
+    /*磁条贷记卡 D0交易上限值*/
+    if ( sInputMode[1] == '2' ) {
+        if (FindValueByKey(sTmp, "D0_SINGLE_CASH_MAX") < 0) {
+            ErrHanding(pstTransJson, "96", "查找key[D0_SINGLE_CASH_MAX]D0交易上限值,失败.");
+            return -1;
+        }
+    }
+    else if ( sInputMode[1] == '5' || sInputMode[1] == '7' ) {  /*IC贷记卡 D0交易上限值*/
+        if (FindValueByKey(sTmp, "D0IC_SINGLE_CASH_MAX") < 0) {
+            ErrHanding(pstTransJson, "96", "查找key[D0_SINGLE_CASH_MAX]D0交易上限值,失败.");
+            return -1;
+        }
     }
     dMaxAmt = atof(sTmp);
     if (DBL_CMP(dTranAmt, dMaxAmt)) {

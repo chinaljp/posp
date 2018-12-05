@@ -82,10 +82,13 @@ int AddPosTransLs(cJSON *pstJson) {
         tLog(ERROR, "查找key[kms.encdata.key]值,失败.");
     } else {
         if (sCardNo[0] != '\0') {
-            if (tHsm_Enc_Asc_Data(sCardNoEnc, sKeyName, sCardNo) < 0)
+            if (tHsm_Enc_Asc_Data(sCardNoEnc, sKeyName, sCardNo) < 0) {
                 tLog(ERROR, "卡号加密失败.");
-            else
+            }    
+            else {
                 tLog(DEBUG, "卡号加密成功.");
+                SET_STR_KEY(pstJson,"card_encno",sCardNoEnc);
+            }
         }
     }
     if ( sCardNo[0] != '\0'&& strlen(sCardNo) > 10 )
@@ -146,7 +149,7 @@ int UpdPosTransLs(cJSON *pstJson) {
     char sChannelTermId[TERM_ID_LEN + 1] = {0}, sBatchNo[BATCH_NO_LEN + 1] = {0}, sAuthCode[AUTH_CODE_LEN + 1] = {0};
     char sChannelTermSn[SN_LEN + 1] = {0}, sChannelMcc[MCC_LEN + 1] = {0}, sAuthoFlag[AUTHO_FLAG_LEN + 1] = {0}, sAgentId[INST_ID_LEN + 1] = {0};
     char sCardBin[10 + 1] = {0}, sCardType[1 + 1] = {0}, sIssId[8 + 1] = {0}, sTransType[1 + 1] = {0};
-    char sMcc[MCC_LEN + 1] = {0}, sUserCode[15 + 1] = {0}, sFeeType[2 + 1] = {0},sAgentOrganization[100 + 1];
+    char sMcc[MCC_LEN + 1] = {0}, sUserCode[15 + 1] = {0}, sFeeType[2 + 1] = {0},sAgentOrganization[255 + 1],sChannelSettleDate[4 + 1]={0};//mmdd
     double dFee = 0.0;
     OCI_Resultset *pstRes = NULL;
 
@@ -172,6 +175,7 @@ int UpdPosTransLs(cJSON *pstJson) {
     GET_STR_KEY(pstJson, "channel_term_sn", sChannelTermSn);
     GET_STR_KEY(pstJson, "channel_rrn", sChannelRrn);
     GET_STR_KEY(pstJson, "channel_mcc", sChannelMcc);
+    GET_STR_KEY(pstJson, "channel_settle_date",sChannelSettleDate);
     GET_STR_KEY(pstJson, "autho_flag", sAuthoFlag);
     GET_STR_KEY(pstJson, "batch_no", sBatchNo);
     GET_STR_KEY(pstJson, "auth_code", sAuthCode);
@@ -193,7 +197,7 @@ int UpdPosTransLs(cJSON *pstJson) {
     snprintf(sSqlStr, sizeof (sSqlStr), "UPDATE B_POS_TRANS_DETAIL SET "
             " RESP_CODE='%s', ISTRESP_CODE='%s',RESP_DESC='%s', RESP_ID='%s' "
             " ,SETTLE_DATE='%s',FEE=%f,FEE_DESC='%s',FEE_FLAG='%s'"
-            " ,CHANNEL_ID='%s',CHANNEL_MERCH_ID='%s',CHANNEL_TERM_ID='%s',CHANNEL_TERM_SN='%s',CHANNEL_MCC='%s'"
+            " ,CHANNEL_ID='%s',CHANNEL_MERCH_ID='%s',CHANNEL_TERM_ID='%s',CHANNEL_TERM_SN='%s',CHANNEL_MCC='%s',CHANNEL_SETTLE_DATE='%s'"
             " ,AUTHO_FLAG='%s', O_RRN='%s', O_TRANS_DATE='%s', BATCH_NO='%s',AUTH_CODE='%s',MCC='%s'"
             ", CARD_ID='%s',CARD_TYPE='%s',ISS_ID='%s'"
             " ,LAST_MOD_TIME=sysdate"
@@ -201,7 +205,7 @@ int UpdPosTransLs(cJSON *pstJson) {
             " WHERE RRN='%s' and TRANS_DATE='%s'"
             , sRespCode, sIstRespCode, sRespLog, sRespId
             , sSettleDate, dFee, sFeeDesc, sFeeFlag
-            , sChannelId, sChannelMerchId, sChannelTermId, sChannelTermSn, sChannelMcc
+            , sChannelId, sChannelMerchId, sChannelTermId, sChannelTermSn, sChannelMcc,sChannelSettleDate
             , sAuthoFlag, sHisRrn, sHisTransDate, sBatchNo, sAuthCode, sMcc
             , sCardBin, sCardType, sIssId, sAgentId, sTransType, sUserCode, sFeeType, sChannelRrn, sAgentOrganization
             , sRrn, sTransDate);
@@ -360,7 +364,7 @@ int UpdInlineTransLs(cJSON *pstJson) {
     char sTransCode[6 + 1] = {0}; //add by GuoJiaqing at 20171226, 用于区分二维码主扫、被扫交易与其他交易更新的不同的内容
     char sCardBin[10 + 1] = {0}, sCardType[CARD_TYPE_LEN + 1] = {0}, sCardExpDate[EXP_DATE_LEN + 1] = {0};
     char sCardNoEnc[255 + 1] = {0},sCardNo[21+1] = {0}, sKey[32+1] = {0};
-    char sIstRespCode[8+1] = {0},sAgentOrganization[100 + 1];
+    char sIstRespCode[8+1] = {0},sAgentOrganization[255 + 1];
      
     GET_DOU_KEY(pstJson, "fee", dFee);
     GET_STR_KEY(pstJson, "fee_flag", sFeeFlag);

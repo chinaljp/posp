@@ -38,7 +38,7 @@ int DealRespMsg(char *pcRespMsg) {
     char sBuf[16 + 1]             = {0};
     char sSettleSysTrace[6 + 1]   = {0}; //银联二维码系统跟踪号
     char sSettleTransTime[10 + 1] = {0}; //银联二维码交易传输时间
-    char sAmount[12 + 1] = {0},sOrderAmount[12 + 1] = {0}, sCardAttr[2 + 1] = {0}, sCardType[1 + 1] = {0};
+    char sAmount[12 + 1] = {0},sOrderAmount[12 + 1] = {0}, sCardAttr[2 + 1] = {0}, sCardType[1 + 1] = {0}, sChannelSettleDate[4] = {0},sSettleDate[8+1]={0};
     double dAmount = 0.00, dOrderAmount = 0.00;
     
     char sSqlStr[1024]      = {0};
@@ -84,6 +84,14 @@ int DealRespMsg(char *pcRespMsg) {
                 return ( -1 );
             }
             return ( 0 );
+        }/*返回00 需更新原交易应答码*/
+        else {
+            tLog(WARN,"rrn[%s],订单号：[%s],EPOS 无卡快捷消费支付结果：支付成功!，sRespCode[%s]",sRrn,sOrderNo,sRespCode);
+            /*更新原交易应答*/
+            if( UpRespDesc(sRespCode,"SUCCESS",sRrn) < 0 ){
+                tLog(ERROR,"更新本次交易[%s]的应答描述失败！",sRrn);
+                return ( -1 );
+            }
         }
     }
     else {
@@ -107,6 +115,7 @@ int DealRespMsg(char *pcRespMsg) {
         GET_STR_KEY(pstJson,"txnAmt",sAmount);//交易金额（优惠后的金额）
         GET_STR_KEY(pstJson,"origTxnAmt",sOrderAmount);//订单交易金额（优惠前的金额）
         GET_STR_KEY(pstJson,"cardAttr",sCardAttr);//sCardAttr： 01 - 借记卡， 02 - 贷记卡
+        GET_STR_KEY(pstJson,"settleDate",sChannelSettleDate); //渠道（银联）清算日期
         if( sCardAttr[1] == '1' ) {
             strcpy(sCardType,"0");
         } 
@@ -132,7 +141,10 @@ int DealRespMsg(char *pcRespMsg) {
         memcpy(sSettleTransTime,sBuf+strlen(sSettleSysTrace),10);//截取交易传输时间
         tLog(INFO,"sSettleKey[%s],sSettleSysTrace[%s],sSettleTransTime[%s]",sSettleKey,sSettleSysTrace,sSettleTransTime);   
         
-        if( UpCupsSettleKey(sCardType,sSettleSysTrace,sSettleTransTime,sOrderNo) < 0 ) {
+        /*获取settle_date(出参)*/
+        GetSysSettleDate(sSettleDate,sChannelSettleDate);
+        
+        if( UpCupsSettleKey(sCardType,sSettleSysTrace,sSettleTransTime,sChannelSettleDate,sSettleDate,sOrderNo) < 0 ) {
             tLog(ERROR, "更新商户[%s]的订单[%s]的card_type,settle_sys_trace、settle_trans_time失败.",sMerchId,sOrderNo);
             return ( -1 );
         }
@@ -221,12 +233,13 @@ int DealRespMsg(char *pcRespMsg) {
         tLog(INFO,"订单[%s]支付结果[%s],未支付或支付失败",sOrderNo,sRespCode);
         return ( -1 );
     }
-    if ( !memcmp(g_sTransCode,"0AQ000",6) ) {
+    /*交易结果已支付成功 更新原交易应答时 便已更新交易的推送标志 此处不再做更新推送标志
+     * if ( !memcmp(g_sTransCode,"0AQ000",6) ) {
         if(  UpNoticeFlag( sRrn ) < 0 ) {
             tLog(ERROR, "更新交易[%s]的推送标志notice_flag失败.",sRrn);
             return ( -1 );
         }
-    }
+    }*/
     return ( 0 );
 }
 

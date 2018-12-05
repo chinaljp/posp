@@ -19,7 +19,7 @@ int FindAgentByMerhId(Agent *pstAgent, char *pcMerchId) {
     /*snprintf(sSqlStr, sizeof (sSqlStr), "select a.AGENT_ID,a.AGENT_NAME,a.STATUS,a.ZMK, a.AGENT_LEVEL, a.GRADE_AGENT_LEVEL, m.merch_type "
             " from B_AGENT a join B_MERCH m on m.AGENT_ID=a.AGENT_ID where m.MERCH_ID='%s'", pcMerchId);
     */
-    snprintf(sSqlStr, sizeof (sSqlStr), "select a.AGENT_ID,a.AGENT_NAME,a.STATUS,a.ZMK, a.AGENT_LEVEL, a.GRADE_AGENT_LEVEL,a.AGENT_ORGANIZATION, m.merch_type "
+    snprintf(sSqlStr, sizeof (sSqlStr), "select a.AGENT_ID,a.AGENT_NAME,a.STATUS,a.ZMK, a.AGENT_LEVEL, a.GRADE_AGENT_LEVEL, a.AGENT_ORGANIZATION "
             " from B_AGENT a join B_MERCH m on m.AGENT_ID=a.AGENT_ID where m.MERCH_ID= :merch_id");
     if (tExecutePre(&pstRes, sSqlStr, 0, 0, 1, pcMerchId, ":merch_id") < 0) {
         tLog(ERROR, "查找商户[%s]所属的代理商资料,失败.", pcMerchId);

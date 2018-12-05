@@ -75,12 +75,17 @@ int DayEnd() {
         tLog(ERROR, "恢复浦发渠道额度失败.");
         return ( -S_RECOVLIMIT);
     }
-    tLog(ERROR, "恢复浦发渠道额度成功.");
+    tLog(INFO, "恢复浦发渠道额度成功.");
     if (RePufaLocalMerchLimit() < 0) {
         tLog(ERROR, "恢复浦发本地商户额度失败.");
         return ( -S_RECOVLIMIT);
     }
-    tLog(ERROR, "恢复浦发本地商户额度成功.");
+    tLog(INFO, "恢复浦发本地商户额度成功.");
+    if (InitLifeMerchUseCnt() < 0) {
+        tLog(ERROR, "生活区商户跳转笔数初始化失败.");
+        return ( -S_RECOVLIMIT);
+    }
+    tLog(INFO, "生活区商户跳转笔数初始化成功.");
 
     return (0);
 }

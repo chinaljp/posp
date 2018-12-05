@@ -266,6 +266,8 @@ int ScanQrTrans(struct timeval *tvS) {
             SET_STR_KEY(pstJson, "payMethod", "WXPAY");
         } else if (sTransCode[2] == 'B') {
             SET_STR_KEY(pstJson, "payMethod", "ALIPAY");
+        } else if(sTransCode[2] == 'Y') {
+            SET_STR_KEY(pstJson, "payMethod", "CUPSQRPAY");
         }
 
         //tLog(INFO, "test1[%s].", sOrderNo);
@@ -424,6 +426,7 @@ int ScanEposTrans(struct timeval *tvS) {
         sprintf(sAmount, "%.2f", dAmount);
         //SET_DOU_KEY(pstJson, "amount", dAmount);
         SET_STR_KEY(pstJson, "amount", sAmount);
+#if 0        
         if (sValidFlag[0] == '4' && !memcmp(sRespCode, "00", 2)) {
             SET_STR_KEY(pstJson, "respCode", "96");
             //            SET_STR_KEY(pstJson, "respDesc", "未收到交易通知");
@@ -436,7 +439,11 @@ int ScanEposTrans(struct timeval *tvS) {
             tLog(INFO, "gb2312[%s].utf-8[%s]", sRespDesc, sRespDescUTF8);
             SET_STR_KEY(pstJson, "respDesc", sRespDescUTF8);
         }
-
+#endif
+    SET_STR_KEY(pstJson, "respCode", sRespCode);
+    code_convert("gb2312", "utf-8", sRespDesc, strlen(sRespDesc), sRespDescUTF8, sizeof (sRespDescUTF8));
+    tLog(INFO, "gb2312[%s].utf-8[%s]", sRespDesc, sRespDescUTF8);
+    SET_STR_KEY(pstJson, "respDesc", sRespDescUTF8);
 
 
 

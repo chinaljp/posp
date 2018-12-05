@@ -136,15 +136,15 @@ int UpFeeMsg(char *pcOrderNo,char *pcFeeType,double dFee,char *pcFeeDesc) {
 }
 
 /*更新银联二维码交易*/
-int UpCupsSettleKey(char *pcCardType, char *pcSettleSysTrace, char *pcSettleTransTime, char *pcOrderNo) { 
+int UpCupsSettleKey(char *pcCardType, char *pcSettleSysTrace, char *pcSettleTransTime, char *pcChannelSettleDate, char * pcSettleDate, char *pcOrderNo) { 
     int iNum = 0;
     char sSqlStr[1024]      = {0};
     OCI_Resultset *pstRes   = NULL;
     
-    snprintf( sSqlStr,sizeof(sSqlStr),"update b_inline_tarns_detail set card_type = '%s',settle_sys_trace = '%s',settle_trans_time = '%s' "
+    snprintf( sSqlStr,sizeof(sSqlStr),"update b_inline_tarns_detail set card_type = '%s',settle_sys_trace = '%s',settle_trans_time = '%s', channel_settle_date = '%s',settle_date = '%s' "
                     "where merch_order_no = '%s' and trans_code not in ('02Y300','0AY300') and "
             "not exists (select 1 from b_inline_tarns_detail where settle_sys_trace = '%s' and settle_trans_time = '%s')",
-            pcCardType,pcSettleSysTrace,pcSettleTransTime,pcOrderNo,pcSettleSysTrace,pcSettleTransTime );
+            pcCardType,pcSettleSysTrace,pcSettleTransTime,pcChannelSettleDate,pcSettleDate,pcOrderNo,pcSettleSysTrace,pcSettleTransTime );
     tLog(DEBUG,"sql = [%s]",sSqlStr);
     if (  tExecute(&pstRes, sSqlStr) < 0 ) {
         tLog(DEBUG, "sql[%s]", sSqlStr);

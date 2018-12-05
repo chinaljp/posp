@@ -22,7 +22,7 @@ int FindMerchOrderNo( char *pcOrderNo, char *pcRrn );
 int FindMerchMsg( char *pcMerchId,char *pcMerchType,char *pcMcc );
 int UpFeeMsg(char *pcOrderNo,char *pcFeeType,double dFee,char *pcFeeDesc);
 int MerchUpFee( char *pcMerchId,char *pcChannelMerchId,char *pcOrderNo,char *pcCardType,char *pcAmount );
-int UpCupsSettleKey(char *pcCardType, char *pcSettleSysTrace, char *pcSettleTransTime, char *pcOrderNo);
+int UpCupsSettleKey(char *pcCardType, char *pcSettleSysTrace, char *pcSettleTransTime, char *pcChannelSettleDate,char *pcSettleDate, char *pcOrderNo);
 int UpCupsAmt(double pcAmount, double pcOrderAmount, char *pcOrderNo);
 int UpValidFlag( char *pcOrderNo );
 int UpRespDesc( char *pcRespCode, char *pcRespDesc, char *pcRrn );
